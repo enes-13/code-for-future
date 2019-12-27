@@ -1,3 +1,393 @@
 # code-for-future
 This is my first coding experience in "mySQL". 
 I have created tables, and I have done inner joins at the end.
+
+mysql> create database mytestdb;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use mytestdb;
+Database changed
+mysql> create table basedata (id int not null, countryname varchar(20), regionname varchar(20), statename varchar(20), cityname varchar(20), population int, primary key(id));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> describe basedata;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| id          | int(11)     | NO   | PRI | NULL    |       |
+| countryname | varchar(20) | YES  |     | NULL    |       |
+| regionname  | varchar(20) | YES  |     | NULL    |       |
+| statename   | varchar(20) | YES  |     | NULL    |       |
+| cityname    | varchar(20) | YES  |     | NULL    |       |
+| population  | int(11)     | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+6 rows in set (0.07 sec)
+
+mysql> insert into basedata (id, countryname, regionname, statename, cityname, population) values (1, 'USA', 'EAST', 'NEW HAMPSHIRE', 'Manchester', 100000);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into basedata (id, countryname, regionname, statename, cityname, population) values (2, 'USA', 'EAST', 'NEW HAMPSHIRE', 'Nashua', 200000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into basedata (id, countryname, regionname, statename, cityname, population) values (3, 'USA', 'EAST', 'MAINE', 'Portland', 150000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into basedata (id, countryname, regionname, statename, cityname, population) values (4, 'USA', 'WEST', 'CALIFORNIA', 'San Francisco', 300000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into basedata (id, countryname, regionname, statename, cityname, population) values (5, 'USA', 'WEST', 'CALIFORNIA', 'Los Angeles', 500000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into basedata (id, countryname, regionname, statename, cityname, population) values (6, 'CANADA', 'EAST', 'ONTARIO', 'Toronto', 500000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into basedata (id, countryname, regionname, statename, cityname, population) values (7, 'CANADA', 'EAST', 'ONTARIO', 'Ottawa', 600000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into basedata (id, countryname, regionname, statename, cityname, population) values (8, 'CANADA', 'WEST', 'BRITISH COLUMBIA', 'Vancuver', 500000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into basedata (id, countryname, regionname, statename, cityname, population) values (9, 'CANADA', 'NORTH', 'NUNAVUT', 'Dawson City', 5000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into basedata (id, countryname, regionname, statename, cityname, population) values (10, 'UK', 'SOUTH', 'ENGLAND', 'London', 500000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into basedata (id, countryname, regionname, statename, cityname, population) values (11, 'UK', 'NORTH', 'SCOTLAND', 'Edinburgh', 300000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from basedata;
++----+-------------+------------+------------------+---------------+------------+
+| id | countryname | regionname | statename        | cityname      | population |
++----+-------------+------------+------------------+---------------+------------+
+|  1 | USA         | EAST       | NEW HAMPSHIRE    | Manchester    |     100000 |
+|  2 | USA         | EAST       | NEW HAMPSHIRE    | Nashua        |     200000 |
+|  3 | USA         | EAST       | MAINE            | Portland      |     150000 |
+|  4 | USA         | WEST       | CALIFORNIA       | San Francisco |     300000 |
+|  5 | USA         | WEST       | CALIFORNIA       | Los Angeles   |     500000 |
+|  6 | CANADA      | EAST       | ONTARIO          | Toronto       |     500000 |
+|  7 | CANADA      | EAST       | ONTARIO          | Ottawa        |     600000 |
+|  8 | CANADA      | WEST       | BRITISH COLUMBIA | Vancuver      |     500000 |
+|  9 | CANADA      | NORTH      | NUNAVUT          | Dawson City   |       5000 |
+| 10 | UK          | SOUTH      | ENGLAND          | London        |     500000 |
+| 11 | UK          | NORTH      | SCOTLAND         | Edinburgh     |     300000 |
++----+-------------+------------+------------------+---------------+------------+
+11 rows in set (0.00 sec)
+
+mysql> describe country;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| country_id  | int(11)     | NO   | PRI | NULL    |       |
+| countryname | varchar(20) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> Insert into country (country_id, countryname) values (1, 'USA');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> Insert into country (country_id, countryname) values (2, 'CANADA');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> Insert into country (country_id, countryname) values (3, 'UK');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from country;
++------------+-------------+
+| country_id | countryname |
++------------+-------------+
+|          1 | USA         |
+|          2 | CANADA      |
+|          3 | UK          |
++------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> create table region (region_id int not null, regionname varchar(20), country_id int, primary key(region_id));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql>  ALTER TABLE region MODIFY COLUMN country_id int, ADD KEY (country_id);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe region;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| region_id  | int(11)     | NO   | PRI | NULL    |       |
+| regionname | varchar(20) | YES  |     | NULL    |       |
+| country_id | int(11)     | YES  | MUL | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into region (region_id, regionname, country_id) values (1, 'EAST', 1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into region (region_id, regionname, country_id) values (2, 'WEST', 1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into region (region_id, regionname, country_id) values (3, 'EAST', 2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into region (region_id, regionname, country_id) values (4, 'WEST', 2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into region (region_id, regionname, country_id) values (5, 'NORTH', 2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into region (region_id, regionname, country_id) values (6, 'SOUTH', 3);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into region (region_id, regionname, country_id) values (7, 'NORTH', 3);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM REGION;
++-----------+------------+------------+
+| region_id | regionname | country_id |
++-----------+------------+------------+
+|         1 | EAST       |          1 |
+|         2 | WEST       |          1 |
+|         3 | EAST       |          2 |
+|         4 | WEST       |          2 |
+|         5 | NORTH      |          2 |
+|         6 | SOUTH      |          3 |
+|         7 | NORTH      |          3 |
++-----------+------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> create table state (state_id int not null, statename varchar(20), region_id int, primary key(state_id));
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> ALTER TABLE state MODIFY COLUMN region_id  varchar(20), ADD KEY (region_id);
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe state;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| state_id  | int(11)     | NO   | PRI | NULL    |       |
+| statename | varchar(20) | YES  |     | NULL    |       |
+| region_id | varchar(20) | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> insert into state values (1, 'NEW HAMPSHIRE', 1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into state values (2, 'MAINE', 1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into state values (3, 'CALIFORNIA', 2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into state values (3, 'ONTARIO', 3);
+ERROR 1062 (23000): Duplicate entry '3' for key 'PRIMARY'
+mysql> insert into state values (4, 'ONTARIO', 3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into state values (5, 'BRITISH COLUMBIA', 4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into state values (6, 'NUVANUT', 5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into state values (7, 'ENGLAND', 6);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into state values (8, 'SCOTLAND', 7);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM STATE;
++----------+------------------+-----------+
+| state_id | statename        | region_id |
++----------+------------------+-----------+
+|        1 | NEW HAMPSHIRE    | 1         |
+|        2 | MAINE            | 1         |
+|        3 | CALIFORNIA       | 2         |
+|        4 | ONTARIO          | 3         |
+|        5 | BRITISH COLUMBIA | 4         |
+|        6 | NUVANUT          | 5         |
+|        7 | ENGLAND          | 6         |
+|        8 | SCOTLAND         | 7         |
++----------+------------------+-----------+
+8 rows in set (0.00 sec)
+
+mysql> create table city (CITY_id int not null, cityname varchar(20), population int, state_id int, primary key(city_id));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> ALTER TABLE city MODIFY COLUMN state_id int, ADD KEY (state_id);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe city;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| CITY_id    | int(11)     | NO   | PRI | NULL    |       |
+| cityname   | varchar(20) | YES  |     | NULL    |       |
+| population | int(11)     | YES  |     | NULL    |       |
+| state_id   | int(11)     | YES  | MUL | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into city values (1, 'MANCHESTER', 100000, 1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into city values (2, 'NASHUA', 200000, 1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into city values (3, 'PORTLAND', 150000, 2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into city values (4, 'SAN FRANSISCO', 300000, 3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into city values (5, 'LOS ANGELES', 500000, 3);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into city values (6, 'TORONTO', 500000, 4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into city values (7, 'OTTAWA', 600000, 4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into city values (8, 'VANCUVER', 600000, 5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into city values (9, 'DAWSON CITY', 5000, 6);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into city values (10, 'LONDON', 500000, 7);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into city values (11, 'EDINBURGH', 300000, 8);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM CITY;
++---------+---------------+------------+----------+
+| CITY_id | cityname      | population | state_id |
++---------+---------------+------------+----------+
+|       1 | MANCHESTER    |     100000 |        1 |
+|       2 | NASHUA        |     200000 |        1 |
+|       3 | PORTLAND      |     150000 |        2 |
+|       4 | SAN FRANSISCO |     300000 |        3 |
+|       5 | LOS ANGELES   |     500000 |        3 |
+|       6 | TORONTO       |     500000 |        4 |
+|       7 | OTTAWA        |     600000 |        4 |
+|       8 | VANCUVER      |     600000 |        5 |
+|       9 | DAWSON CITY   |       5000 |        6 |
+|      10 | LONDON        |     500000 |        7 |
+|      11 | EDINBURGH     |     300000 |        8 |
++---------+---------------+------------+----------+
+11 rows in set (0.00 sec)
+
+mysql> select * from country;
++------------+-------------+
+| country_id | countryname |
++------------+-------------+
+|          1 | USA         |
+|          2 | CANADA      |
+|          3 | UK          |
++------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from region;
++-----------+------------+------------+
+| region_id | regionname | country_id |
++-----------+------------+------------+
+|         1 | EAST       |          1 |
+|         2 | WEST       |          1 |
+|         3 | EAST       |          2 |
+|         4 | WEST       |          2 |
+|         5 | NORTH      |          2 |
+|         6 | SOUTH      |          3 |
+|         7 | NORTH      |          3 |
++-----------+------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from state;
++----------+------------------+-----------+
+| state_id | statename        | region_id |
++----------+------------------+-----------+
+|        1 | NEW HAMPSHIRE    | 1         |
+|        2 | MAINE            | 1         |
+|        3 | CALIFORNIA       | 2         |
+|        4 | ONTARIO          | 3         |
+|        5 | BRITISH COLUMBIA | 4         |
+|        6 | NUVANUT          | 5         |
+|        7 | ENGLAND          | 6         |
+|        8 | SCOTLAND         | 7         |
++----------+------------------+-----------+
+8 rows in set (0.00 sec)
+
+mysql> select * from city;
++---------+---------------+------------+----------+
+| CITY_id | cityname      | population | state_id |
++---------+---------------+------------+----------+
+|       1 | MANCHESTER    |     100000 |        1 |
+|       2 | NASHUA        |     200000 |        1 |
+|       3 | PORTLAND      |     150000 |        2 |
+|       4 | SAN FRANSISCO |     300000 |        3 |
+|       5 | LOS ANGELES   |     500000 |        3 |
+|       6 | TORONTO       |     500000 |        4 |
+|       7 | OTTAWA        |     600000 |        4 |
+|       8 | VANCUVER      |     600000 |        5 |
+|       9 | DAWSON CITY   |       5000 |        6 |
+|      10 | LONDON        |     500000 |        7 |
+|      11 | EDINBURGH     |     300000 |        8 |
++---------+---------------+------------+----------+
+11 rows in set (0.00 sec)
+
+mysql> SELECT countryname, sum(population) as CountryPopulatioN FROM country, region, state, city WHERE city.state_id = state.state_id and state.region_id = region.region_id and region.country_id = country.country_id group by countryname order by countrypopulation desc;
++-------------+-------------------+
+| countryname | CountryPopulatioN |
++-------------+-------------------+
+| CANADA      |           1705000 |
+| USA         |           1250000 |
+| UK          |            800000 |
++-------------+-------------------+
+3 rows in set (0.02 sec)
+
+mysql> SELECT regionname, sum(population) as RegionPopulation FROM region, state, city WHERE city.state_id = state.region_id group by regionname order by regionpopulation desc;
++------------+------------------+
+| regionname | RegionPopulation |
++------------+------------------+
+| WEST       |          7510000 |
+| NORTH      |          7510000 |
+| EAST       |          7510000 |
+| SOUTH      |          3755000 |
++------------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT statename, sum(population) as StatePopulation FROM state, city WHERE city.state_id = state.state_id group by statename order by statepopulation desc;
++------------------+-----------------+
+| statename        | StatePopulation |
++------------------+-----------------+
+| ONTARIO          |         1100000 |
+| CALIFORNIA       |          800000 |
+| BRITISH COLUMBIA |          600000 |
+| ENGLAND          |          500000 |
+| SCOTLAND         |          300000 |
+| NEW HAMPSHIRE    |          300000 |
+| MAINE            |          150000 |
+| NUVANUT          |            5000 |
++------------------+-----------------+
+8 rows in set (0.01 sec)
+
+mysql> SELECT country.country_id as country_id, countryname, regionname, statename, cityname, population FROM country, region, state, city where region.country_id = country.country_id and state.region_id = region.region_id and city.state_id = state.state_id;
++------------+-------------+------------+------------------+---------------+------------+
+| country_id | countryname | regionname | statename        | cityname      | population |
++------------+-------------+------------+------------------+---------------+------------+
+|          1 | USA         | EAST       | NEW HAMPSHIRE    | MANCHESTER    |     100000 |
+|          1 | USA         | EAST       | NEW HAMPSHIRE    | NASHUA        |     200000 |
+|          1 | USA         | EAST       | MAINE            | PORTLAND      |     150000 |
+|          1 | USA         | WEST       | CALIFORNIA       | SAN FRANSISCO |     300000 |
+|          1 | USA         | WEST       | CALIFORNIA       | LOS ANGELES   |     500000 |
+|          2 | CANADA      | EAST       | ONTARIO          | TORONTO       |     500000 |
+|          2 | CANADA      | EAST       | ONTARIO          | OTTAWA        |     600000 |
+|          2 | CANADA      | WEST       | BRITISH COLUMBIA | VANCUVER      |     600000 |
+|          2 | CANADA      | NORTH      | NUVANUT          | DAWSON CITY   |       5000 |
+|          3 | UK          | SOUTH      | ENGLAND          | LONDON        |     500000 |
+|          3 | UK          | NORTH      | SCOTLAND         | EDINBURGH     |     300000 |
++------------+-------------+------------+------------------+---------------+------------+
+11 rows in set (0.01 sec)
